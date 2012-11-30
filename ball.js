@@ -1,10 +1,8 @@
 
 
-console.log("hi out");
+
 
 (function() {
-
-  console.log("hi");
 
   var canvas;
   var canvasEl;
@@ -16,13 +14,12 @@ console.log("hi out");
     this.aspectRatio = this.aspectRatio || 1.5;
     this.el = this.el || canvasEl;
     this.context = this.context || this.el.getContext('2d');
-    window.addEventListener("resize", this.resize);
   };
 
   Canvas.prototype.resize = function() {
-    console.log("resizing ...");
     this.el.width  = window.innerWidth;
     this.el.height = Math.floor(this.el.width / this.aspectRatio);
+    console.log("resizing to " + this.el.width + " by " + this.el.height);
   };
 
 
@@ -41,18 +38,18 @@ console.log("hi out");
   };
 
   var main = function() {
-    var canvasEl = document.getElementById('canvas');
-    var canvas = new Canvas();
+    canvasEl = document.getElementById('canvas');
+    canvas = new Canvas();
+    canvas.resize();
+    window.addEventListener("resize", function() {
+      canvas.resize.call(canvas);
+    });
     var ball = new Ball();
+    window.b = {
+      ball: ball
+    };
   };
 
   window.onload = main;
-
-  window.b = {
-    canvas: canvas,
-    context: context,
-    Ball: Ball,
-    ball: ball
-  };
 
 })();
