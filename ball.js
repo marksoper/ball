@@ -27,14 +27,22 @@
     for (var prop in options) {
       this[prop] = options[prop];
     }
-    this.radius = this.radius || 100;
-    this.x = this.x || 0;
-    this.y = this.y || 0;
     this.canvas = this.canvas || canvas;
+    this.radius = this.radius || 100;
+    this.x = this.x || Math.floor(this.canvas.el.width / 2);
+    this.y = this.y || Math.floor(this.canvas.el.height / 4);
+
   };
 
   Ball.prototype.draw = function() {
-
+    var x, y, radius;
+    for (var i=0; i<40; i++) {
+      x = Math.floor(this.x + (20 + i/50) * Math.random());
+      y = Math.floor(this.y + (20+ i/50) * Math.random());
+      radius = Math.floor(this.radius +3 * Math.random());
+      this.canvas.context.arc(x,y,this.radius,0,Math.PI*2,true);
+    }
+    this.canvas.context.stroke();
   };
 
   var main = function() {
@@ -45,6 +53,7 @@
       canvas.resize.call(canvas);
     });
     var ball = new Ball();
+    ball.draw();
     window.b = {
       ball: ball
     };
