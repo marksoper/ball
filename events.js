@@ -116,6 +116,37 @@ var Loop;
   };
 
 
-  Loop = function
+  Loop = function(options) {
+    for (var prop in Events) {
+      this[prop] = Events[prop];
+    }
+    for (var opt in options) {
+      this[opt] = options[opt];
+    }
+    this.active = this.active || false;
+    this.interval = this.interval || 200;
+  };
+
+  Loop.prototype.start = function(interval) {
+    this.interval = interval || this.interval;
+    this.active = true;
+    this._run();
+  };
+
+  Loop.prototype.stop = function() {
+    this.active = false;
+  };
+
+  Loop.prototype._next = function() {
+    setTimeout(this._run, this.interval);
+  };
+
+  Loop.prototype._run = function(next) {
+    if (this.active) {
+      next = next || this._next();
+      this.trigger("run");
+      next();
+    }
+  };
 
 }());

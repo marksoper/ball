@@ -4,6 +4,7 @@
 
 (function() {
 
+  var loop;
   var canvas;
   var canvasEl;
 
@@ -55,14 +56,20 @@
     canvasEl = document.getElementById('canvas');
     canvas = new Canvas();
     canvas.resize();
-    window.addEventListener("resize", function() {
-      canvas.resize.call(canvas);
+    var loop = new Loop();
+    var ball = new Ball();
+    loop.on("run", function() {
       ball.locate.call(ball);
       ball.draw.call(ball);
     });
-    var ball = new Ball();
-    ball.draw();
+    window.addEventListener("resize", function() {
+      loop.on("run", function() {
+        canvas.resize.call(canvas);
+      });
+    });
+   loop.start();
     window.b = {
+      loop: loop,
       ball: ball
     };
   };
