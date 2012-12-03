@@ -31,7 +31,12 @@
     this.radius = this.radius || 100;
     this.x = this.x || Math.floor(this.canvas.el.width / 2);
     this.y = this.y || Math.floor(this.canvas.el.height / 4);
+  };
 
+  Ball.prototype.locate = function() {
+    this.x = Math.floor(this.canvas.el.width / 2);
+    this.y = Math.floor(this.canvas.el.height / 4);
+    console.log("locating ball to: " + this.x + " , " + this.y);
   };
 
   Ball.prototype.draw = function() {
@@ -43,6 +48,7 @@
       this.canvas.context.arc(x,y,this.radius,0,Math.PI*2,true);
     }
     this.canvas.context.stroke();
+    console.log("drawing ball");
   };
 
   var main = function() {
@@ -51,6 +57,8 @@
     canvas.resize();
     window.addEventListener("resize", function() {
       canvas.resize.call(canvas);
+      ball.locate.call(ball);
+      ball.draw.call(ball);
     });
     var ball = new Ball();
     ball.draw();
