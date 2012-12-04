@@ -7,7 +7,7 @@
     }
     this.registered = this.registered || [];
     this.active = this.active || false;
-    this.interval = this.interval || 20;
+    this.interval = this.interval || 50;
   };
 
   Loop.prototype.register = function(name, fn, order) {

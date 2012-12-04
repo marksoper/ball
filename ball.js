@@ -1,97 +1,56 @@
 
-
-
-
 (function() {
 
-  var loop;
-  var canvas;
-  var canvasEl;
-
-  var Canvas = function(options) {
-    for (var prop in options) {
-      this[prop] = options[prop];
-    }
-    this.aspectRatio = this.aspectRatio || 1.5;
-    this.el = this.el || canvasEl;
-    this.context = this.context || this.el.getContext('2d');
-  };
-
-  Canvas.prototype.resize = function() {
-    this.el.width  = window.innerWidth;
-    this.el.height = Math.floor(this.el.width / this.aspectRatio);
-    console.log("resizing to " + this.el.width + " by " + this.el.height);
-  };
-
-  Canvas.prototype.clear = function() {
-    this.context.clearRect(0, 0, this.el.width, this.el.height);
-  };
-
+  var twicePI = Math.PI*2;
 
   var Ball = function(options) {
-    for (var prop in options) {
-      this[prop] = options[prop];
+    if (this instanceof Ball) {
+      this.canvas = options.canvas;
+      this.context = options.context;
+      this.radius = options.radius || 100;
+      this.locateX = options.locateX || function() { return 0; };
+      this.locateY = options.locateY || function() { return 0; };
+      this.strokeColor = options.strokeColor || "#000000";
+      this.fillColor = options.fillColor;
+      this.lineWidth = options.lineWidth || 10;
+      this.drawingFunction = options.drawingFunction || this.drawBasic;
+    } else {
+      return new Ball(options);
     }
-    this.canvas = this.canvas || canvas;
-    this.radius = this.radius || 100;
-    this.x = this.x || Math.floor(this.canvas.el.width / 2);
-    this.y = this.y || Math.floor(this.canvas.el.height / 4);
   };
 
   Ball.prototype.locate = function() {
-    this.x = Math.floor(this.canvas.el.width / 2);
-    this.y = Math.floor(this.canvas.el.height / 4);
+    this.x = this.locateX.call(this);
+    this.y = this.locateY.call(this);
   };
 
   Ball.prototype.draw = function() {
+    this.context.stokeStyle = this.strokeColor;
+    if (this.fillColor) {
+      this.context.fillStyle = this.fillColor;
+    }
+    this.context.lineWidth = this.lineWidth;
+    return this.drawingFunction.call(this);
+  };
+
+  Ball.prototype.drawBasic = function () {
+    this.context.beginPath();
+    this.context.arc(this.x, this.y, this.radius, twicePI, true);
+    this.context.stroke();
+  };
+
+  Ball.prototype.drawPenSketch = function() {
     var x, y, radius;
-    for (var i=0; i<10; i++) {
+    for (var i=0; i<Math.floor(this.lineWidth); i++) {
       this.canvas.context.beginPath();
       x = Math.floor(this.x + (20 + i/50) * Math.random());
       y = Math.floor(this.y + (20+ i/50) * Math.random());
       radius = Math.floor(this.radius +3 * Math.random());
-      this.canvas.context.arc(x,y,this.radius,0,Math.PI*2,true);
+      this.canvas.context.arc(x, y, this.radius, 0, twicePI, true);
       this.canvas.context.stroke();
     }
   };
 
-  var main = function() {
-    canvasEl = document.getElementById('canvas');
-    canvas = new Canvas();
-    canvas.resize();
-    var loop = new Loop();
-    var ball = new Ball();
-    loop.register("redraw", function() {
-      canvas.clear.call(canvas);
-      ball.locate.call(ball);
-      ball.draw.call(ball);
-    });
-    window.addEventListener("resize", function() {
-      if (canvas.resizing) {
-        console.log("window resize event ignored");
-        return;
-      }
-      console.log("window resize event NOT ignored");
-      canvas.resizing = true;
-      loop.register(
-        "resizeCanvas",
-        function() {
-          canvas.resize.call(canvas);
-          ball.locate.call(ball);
-          ball.draw.call(ball);
-          loop.unregister("resizeCanvas");
-          delete canvas.resizing;
-        },
-        0
-      );
-    });
-   loop.start();
-    window.b = {
-      loop: loop,
-      ball: ball
-    };
-  };
-
-  window.onload = main;
+  window.Ball = Ball;
 
 })();
