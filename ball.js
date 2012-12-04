@@ -23,6 +23,10 @@
     console.log("resizing to " + this.el.width + " by " + this.el.height);
   };
 
+  Canvas.prototype.clear = function() {
+    this.context.clearRect(0, 0, this.el.width, this.el.height);
+  };
+
 
   var Ball = function(options) {
     for (var prop in options) {
@@ -37,19 +41,17 @@
   Ball.prototype.locate = function() {
     this.x = Math.floor(this.canvas.el.width / 2);
     this.y = Math.floor(this.canvas.el.height / 4);
-    console.log("locating ball to: " + this.x + " , " + this.y);
   };
 
   Ball.prototype.draw = function() {
     var x, y, radius;
-    for (var i=0; i<40; i++) {
+    for (var i=0; i<10; i++) {
       x = Math.floor(this.x + (20 + i/50) * Math.random());
       y = Math.floor(this.y + (20+ i/50) * Math.random());
       radius = Math.floor(this.radius +3 * Math.random());
       this.canvas.context.arc(x,y,this.radius,0,Math.PI*2,true);
     }
     this.canvas.context.stroke();
-    console.log("drawing ball");
   };
 
   var main = function() {
@@ -59,12 +61,15 @@
     var loop = new Loop();
     var ball = new Ball();
     loop.on("run", function() {
+      canvas.clear.call(canvas);
       ball.locate.call(ball);
       ball.draw.call(ball);
     });
     window.addEventListener("resize", function() {
+      console.log("window resize event ...");
       loop.on("run", function() {
         canvas.resize.call(canvas);
+        loop.off("run", canvas.resize);
       });
     });
    loop.start();

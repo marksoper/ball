@@ -124,28 +124,32 @@ var Loop;
       this[opt] = options[opt];
     }
     this.active = this.active || false;
-    this.interval = this.interval || 200;
+    this.interval = this.interval || 500;
   };
 
   Loop.prototype.start = function(interval) {
+    console.log("loop start");
     this.interval = interval || this.interval;
     this.active = true;
     this._run();
   };
 
   Loop.prototype.stop = function() {
+    console.log("loop stop");
     this.active = false;
   };
 
   Loop.prototype._next = function() {
-    setTimeout(this._run, this.interval);
+    var self = this;
+    setTimeout(function() {
+      self._run();
+    }, this.interval);
   };
 
-  Loop.prototype._run = function(next) {
+  Loop.prototype._run = function() {
     if (this.active) {
-      next = next || this._next();
       this.trigger("run");
-      next();
+      this._next();
     }
   };
 
