@@ -46,12 +46,13 @@
   Ball.prototype.draw = function() {
     var x, y, radius;
     for (var i=0; i<10; i++) {
+      this.canvas.context.beginPath();
       x = Math.floor(this.x + (20 + i/50) * Math.random());
       y = Math.floor(this.y + (20+ i/50) * Math.random());
       radius = Math.floor(this.radius +3 * Math.random());
       this.canvas.context.arc(x,y,this.radius,0,Math.PI*2,true);
+      this.canvas.context.stroke();
     }
-    this.canvas.context.stroke();
   };
 
   var main = function() {
@@ -60,17 +61,29 @@
     canvas.resize();
     var loop = new Loop();
     var ball = new Ball();
-    loop.on("run", function() {
+    loop.register("redraw", function() {
       canvas.clear.call(canvas);
       ball.locate.call(ball);
       ball.draw.call(ball);
     });
     window.addEventListener("resize", function() {
-      console.log("window resize event ...");
-      loop.on("run", function() {
-        canvas.resize.call(canvas);
-        loop.off("run", canvas.resize);
-      });
+      if (canvas.resizing) {
+        console.log("window resize event ignored");
+        return;
+      }
+      console.log("window resize event NOT ignored");
+      canvas.resizing = true;
+      loop.register(
+        "resizeCanvas",
+        function() {
+          canvas.resize.call(canvas);
+          ball.locate.call(ball);
+          ball.draw.call(ball);
+          loop.unregister("resizeCanvas");
+          delete canvas.resizing;
+        },
+        0
+      );
     });
    loop.start();
     window.b = {
