@@ -46,7 +46,7 @@
       locateY: function() {
         return Math.floor(this.canvas.height / 4);
       },
-      strokeColor: "#ff0000",
+      strokeColor: "#440000",
       lineWidth: 10,
       drawingStyle: "penSketch"
     });

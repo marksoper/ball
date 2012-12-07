@@ -25,7 +25,7 @@
   };
 
   Ball.prototype.draw = function() {
-    this.context.stokeStyle = this.strokeColor;
+    this.context.strokeStyle = this.strokeColor;
     if (this.fillColor) {
       this.context.fillStyle = this.fillColor;
     }
