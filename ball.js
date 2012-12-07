@@ -13,7 +13,7 @@
       this.strokeColor = options.strokeColor || "#000000";
       this.fillColor = options.fillColor;
       this.lineWidth = options.lineWidth || 10;
-      this.drawingFunction = options.drawingFunction || this.drawBasic;
+      this.drawingStyle = options.drawingStyle || "basic";
     } else {
       return new Ball(options);
     }
@@ -30,24 +30,26 @@
       this.context.fillStyle = this.fillColor;
     }
     this.context.lineWidth = this.lineWidth;
-    return this.drawingFunction.call(this);
+    return Ball.styles[this.drawingStyle].call(this);
   };
 
-  Ball.prototype.drawBasic = function () {
-    this.context.beginPath();
-    this.context.arc(this.x, this.y, this.radius, twicePI, true);
-    this.context.stroke();
-  };
-
-  Ball.prototype.drawPenSketch = function() {
-    var x, y, radius;
-    for (var i=0; i<10; i++) {
-      x = Math.floor(this.x + (20 + i/50) * Math.random());
-      y = Math.floor(this.y + (20+ i/50) * Math.random());
-      radius = Math.floor(this.radius +3 * Math.random());
-      this.canvas.context.arc(x,y,this.radius,0,Math.PI*2,true);
+  Ball.styles = {
+    basic: function () {
+      this.context.beginPath();
+      this.context.arc(this.x, this.y, this.radius, twicePI, true);
+      this.context.stroke();
+    },
+    penSketch: function() {
+      var x, y, radius;
+      for (var i=0; i<Math.floor(this.lineWidth); i++) {
+        this.context.beginPath();
+        x = Math.floor(this.x + (20 + i/50) * Math.random());
+        y = Math.floor(this.y + (20+ i/50) * Math.random());
+        radius = Math.floor(this.radius +3 * Math.random());
+        this.context.arc(x, y, this.radius, 0, twicePI, true);
+        this.context.stroke();
+      }
     }
-    this.canvas.context.stroke();
   };
 
   var main = function() {
