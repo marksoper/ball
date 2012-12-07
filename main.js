@@ -34,17 +34,17 @@
     var canvasResizing;
     var aspectRatio = 1.5;
     //
-    canvas.resize();
+    resizeCanvas(canvas, aspectRatio);
     var loop = new Loop();
     var ball = new Ball({
       canvas: canvas,
       context: context,
       radius: 100,
       locateX: function() {
-        Math.floor(this.canvas.width / 2);
+        return Math.floor(this.canvas.width / 2);
       },
       locateY: function() {
-        Math.floor(this.canvas.height / 4);
+        return Math.floor(this.canvas.height / 4);
       },
       strokeColor: "#ff0000",
       lineWidth: 10,

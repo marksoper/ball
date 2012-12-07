@@ -42,12 +42,12 @@
     penSketch: function() {
       var x, y, radius;
       for (var i=0; i<Math.floor(this.lineWidth); i++) {
-        this.canvas.context.beginPath();
+        this.context.beginPath();
         x = Math.floor(this.x + (20 + i/50) * Math.random());
         y = Math.floor(this.y + (20+ i/50) * Math.random());
         radius = Math.floor(this.radius +3 * Math.random());
-        this.canvas.context.arc(x, y, this.radius, 0, twicePI, true);
-        this.canvas.context.stroke();
+        this.context.arc(x, y, this.radius, 0, twicePI, true);
+        this.context.stroke();
       }
     }
   };
