@@ -52,4 +52,6 @@
     }
   };
 
+  window.Ball = Ball;
+
 })();
