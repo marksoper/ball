@@ -52,6 +52,4 @@
     }
   };
 
-  window.Ball = Ball;
-
 })();
