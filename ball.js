@@ -52,31 +52,4 @@
     }
   };
 
-  var main = function() {
-    canvasEl = document.getElementById('canvas');
-    canvas = new Canvas();
-    canvas.resize();
-    var loop = new Loop();
-    var ball = new Ball();
-    loop.on("run", function() {
-      canvas.clear.call(canvas);
-      ball.locate.call(ball);
-      ball.draw.call(ball);
-    });
-    window.addEventListener("resize", function() {
-      console.log("window resize event ...");
-      loop.on("run", function() {
-        canvas.resize.call(canvas);
-        loop.off("run", canvas.resize);
-      });
-    });
-   loop.start();
-    window.b = {
-      loop: loop,
-      ball: ball
-    };
-  };
-
-  window.onload = main;
-
 })();
