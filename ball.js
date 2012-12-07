@@ -41,16 +41,40 @@
 
   Ball.prototype.drawPenSketch = function() {
     var x, y, radius;
-    for (var i=0; i<Math.floor(this.lineWidth); i++) {
-      this.canvas.context.beginPath();
+    for (var i=0; i<10; i++) {
       x = Math.floor(this.x + (20 + i/50) * Math.random());
       y = Math.floor(this.y + (20+ i/50) * Math.random());
       radius = Math.floor(this.radius +3 * Math.random());
-      this.canvas.context.arc(x, y, this.radius, 0, twicePI, true);
-      this.canvas.context.stroke();
+      this.canvas.context.arc(x,y,this.radius,0,Math.PI*2,true);
     }
+    this.canvas.context.stroke();
   };
 
-  window.Ball = Ball;
+  var main = function() {
+    canvasEl = document.getElementById('canvas');
+    canvas = new Canvas();
+    canvas.resize();
+    var loop = new Loop();
+    var ball = new Ball();
+    loop.on("run", function() {
+      canvas.clear.call(canvas);
+      ball.locate.call(ball);
+      ball.draw.call(ball);
+    });
+    window.addEventListener("resize", function() {
+      console.log("window resize event ...");
+      loop.on("run", function() {
+        canvas.resize.call(canvas);
+        loop.off("run", canvas.resize);
+      });
+    });
+   loop.start();
+    window.b = {
+      loop: loop,
+      ball: ball
+    };
+  };
+
+  window.onload = main;
 
 })();
