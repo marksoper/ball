@@ -28,15 +28,12 @@
   };
 
 
-
-
-    this.x = this.x || ;
-    this.y = this.y || Math.floor(this.canvas.el.height / 4);
-
-
   var main = function() {
     var canvas = document.getElementById('canvas');
     var context = canvas.getContext('2d');
+    var canvasResizing;
+    var aspectRatio = 1.5;
+    //
     canvas.resize();
     var loop = new Loop();
     var ball = new Ball({
@@ -51,30 +48,28 @@
       },
       strokeColor: "#ff0000",
       lineWidth: 10,
-      drawingStyle: 
-      this.lineWidth = options.lineWidth || 10;
-      this.drawingFunction = options.drawingFunction || this.drawBasic;
+      drawingStyle: "penSketch"
     });
     loop.register("redraw", function() {
-      canvas.clear.call(canvas);
+      clearCanvas(canvas, context);
       ball.locate.call(ball);
       ball.draw.call(ball);
     });
     window.addEventListener("resize", function() {
-      if (canvas.resizing) {
+      if (canvasResizing) {
         console.log("window resize event ignored");
         return;
       }
       console.log("window resize event NOT ignored");
-      canvas.resizing = true;
+      canvasResizing = true;
       loop.register(
         "resizeCanvas",
         function() {
-          canvas.resize.call(canvas);
+          resizeCanvas(canvas, aspectRatio);
           ball.locate.call(ball);
           ball.draw.call(ball);
           loop.unregister("resizeCanvas");
-          delete canvas.resizing;
+          canvasResizing = false;
         },
         0
       );
