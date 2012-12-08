@@ -33,32 +33,22 @@
   Loop.prototype.start = function(interval) {
     console.log("loop start");
     this.interval = interval || this.interval;
-    this.active = true;
-    this._run();
+    this.started = true;
+    this.next();
   };
 
   Loop.prototype.stop = function() {
     console.log("loop stop");
-    this.active = false;
+    this.started = false;
   };
 
-  Loop.prototype._next = function() {
+  Loop.prototype.next = function() {
     var self = this;
-    setTimeout(function() {
-      self._run();
-    }, this.interval);
-  };
-
-  Loop.prototype._runRegistered = function() {
     for (var i in this.registered) {
       this.registered[i].fn();
     }
-  };
-
-  Loop.prototype._run = function() {
-    if (this.active) {
-      this._runRegistered();
-      this._next();
+    if (this.started) {
+      setTimeout(this.next, this.interval);
     }
   };
 
