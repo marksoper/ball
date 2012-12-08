@@ -31,15 +31,16 @@
   };
 
   Loop.prototype.start = function(interval) {
-    console.log("loop start");
     this.interval = interval || this.interval;
     this.started = true;
     this.next();
+    console.log("loop start");
   };
 
   Loop.prototype.stop = function() {
-    console.log("loop stop");
+    clearTimeout(this.timeout);
     this.started = false;
+    console.log("loop stop");
   };
 
   Loop.prototype.next = function() {
@@ -48,7 +49,11 @@
       this.registered[i].fn();
     }
     if (this.started) {
-      setTimeout(this.next, this.interval);
+      this.timeout = setTimeout(function() {
+        self.next();
+      }, this.interval);
+    } else {
+      console.log("loop next called while loop stopped");
     }
   };
 
