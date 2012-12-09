@@ -16,6 +16,10 @@
     return Math.floor(Math.random()*(dimLength - 2*border) + border);
   };
 
+  var randomColor = function() {
+    return "#" + (Math.floor(255*Math.random())).toString(16) + (Math.floor(255*Math.random())).toString(16) + (Math.floor(255*Math.random())).toString(16);
+  };
+
   var main = function() {
     var defaultRadius = 100;
     var canvas = document.getElementById('canvas');
@@ -47,7 +51,7 @@
         calcLineWidth: function() {
           return Math.floor(canvas.width / 80);
         },
-        strokeColor: "#440000",
+        strokeColor: randomColor(),
         lineWidth: 10,
         drawingStyle: "penSketch"
       });
