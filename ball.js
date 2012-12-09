@@ -7,12 +7,12 @@
     if (this instanceof Ball) {
       this.canvas = options.canvas;
       this.context = options.context;
-      this.radius = options.radius || 100;
-      this.locateX = options.locateX || function() { return 0; };
-      this.locateY = options.locateY || function() { return 0; };
+      this.calcRadius = options.calcRadius || function() { return 100; };
+      this.calcX = options.calcX || function() { return 0; };
+      this.calcY = options.calcY || function() { return 0; };
       this.strokeColor = options.strokeColor || "#000000";
       this.fillColor = options.fillColor;
-      this.lineWidth = options.lineWidth || 10;
+      this.calcLineWidth = options.calcLineWidth ||function() { return 10; };
       this.drawingStyle = options.drawingStyle || "basic";
     } else {
       return new Ball(options);
@@ -20,8 +20,13 @@
   };
 
   Ball.prototype.locate = function() {
-    this.x = this.locateX.call(this);
-    this.y = this.locateY.call(this);
+    this.x = this.calcX.call(this);
+    this.y = this.calcY.call(this);
+  };
+
+  Ball.prototype.resize = function() {
+    this.radius = this.calcRadius.call(this);
+    this.lineWidth = this.calcLineWidth.call(this);
   };
 
   Ball.prototype.draw = function() {
@@ -43,8 +48,8 @@
       var x, y, radius;
       for (var i=0; i<Math.floor(this.lineWidth); i++) {
         this.context.beginPath();
-        x = Math.floor(this.x + (20 + i/50) * Math.random());
-        y = Math.floor(this.y + (20+ i/50) * Math.random());
+        x = Math.floor(this.x + (50 + i/50) * Math.random());
+        y = Math.floor(this.y + (50+ i/50) * Math.random());
         radius = Math.floor(this.radius +3 * Math.random());
         this.context.arc(x, y, this.radius, 0, twicePI, true);
         this.context.stroke();
