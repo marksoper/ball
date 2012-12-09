@@ -22,28 +22,29 @@
 
   var main = function() {
     var defaultRadius = 100;
+    var defaultLineWidth = 10;
     var canvas = document.getElementById('canvas');
     var context = canvas.getContext('2d');
     var canvasResizing;
     var aspectRatio = 1.5;
     resizeCanvas(canvas, aspectRatio);
+    var initialCanvasWidth = canvas.width;
+    var initialCanvasHeight = canvas.height;
+    var initialBallX = randomLocate(canvas.width, canvas.width / 4);
+    var initialBallY = randomLocate(canvas.height, canvas.width / 4);
     var loop = new Loop();
     var balls = [];
     //
     var makeBall = function() {
-      var initialCanvasWidth = canvas.width;
-      var initialCanvasHeight = canvas.height;
-      var initialX = randomLocate(canvas.width, canvas.width / 4);
-      var initialY = randomLocate(canvas.height, canvas.width / 4);
       var ball = new Ball({
         canvas: canvas,
         context: context,
         radius: defaultRadius,
         calcX: function() {
-          return Math.floor( (initialX/initialCanvasWidth) * canvas.width );
+          return Math.floor( (initialBallX/initialCanvasWidth) * canvas.width );
         },
         calcY: function() {
-          return Math.floor( (initialY/initialCanvasHeight) * canvas.height );
+          return Math.floor( (initialBallY/initialCanvasHeight) * canvas.height );
         },
         calcRadius: function() {
           return Math.floor(canvas.width / 8);
@@ -52,15 +53,43 @@
           return Math.floor(canvas.width / 80);
         },
         strokeColor: randomColor(),
-        lineWidth: 10,
+        lineWidth: defaultLineWidth,
         drawingStyle: "penSketch"
       });
       return ball;
     };
     //
-    for (var i=0; i<1+Math.floor(Math.random()*3); i++) {
+    var makeGround = function() {
+      var initialBeginX = 0;
+      var initialBeginY = initialBallY + defaultRadius + defaultLineWidth * defaultLineWidth - 3*defaultLineWidth;
+      var initialEndX = canvas.width;
+      var initialEndY = initialBallY + defaultRadius + defaultLineWidth * defaultLineWidth;
+      var ground = new Line({
+        canvas: canvas,
+        context: context,
+        calcBeginX: function() {
+          return initialBeginX;
+        },
+        calcBeginY: function() {
+          return Math.floor( (initialBeginY/initialCanvasHeight) * canvas.height );
+        },
+        calcEndX: function() {
+          return initialEndX;
+        },
+        calcEndY: function() {
+          return Math.floor( (initialEndY/initialCanvasHeight) * canvas.height );
+        },
+        lineWidth: 10,
+        drawingStyle: "penSketch"
+      });
+      return ground;
+    };
+    //
+    //for (var i=0; i<1+Math.floor(Math.random()*3); i++) {
+    for (var i=0; i<=0; i++) {
       balls.push(makeBall());
     }
+    var ground = makeGround();
     //
     loop.register("redraw", function() {
       clearCanvas(canvas, context);
@@ -69,6 +98,9 @@
         ball.resize.call(ball);
         ball.draw.call(ball);
       });
+      ground.locate.call(ground);
+      ground.resize.call(ground);
+      ground.draw.call(ground);
     });
     //
     window.addEventListener("resize", function() {
@@ -87,6 +119,9 @@
             ball.resize.call(ball);
             ball.draw.call(ball);
           });
+          ground.locate.call(ground);
+          ground.resize.call(ground);
+          ground.draw.call(ground);
           loop.unregister("resizeCanvas");
           canvasResizing = false;
         },
