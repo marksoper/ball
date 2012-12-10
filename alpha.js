@@ -1,8 +1,34 @@
 
 (function() {
 
-  var vertices = {
-    "M": [ [0.0, 0.0], [0.0, 1.0], [0.5, 0.4], [1.0, 1.0], [1.0, 0.0] ]
+  var paths = {
+    "M": [
+      {
+        begin: [0.0, 0.0],
+        end: [0.0, 1.0]
+      }, {
+        end: [0.5, 0.4]
+      }, {
+        end: [1.0, 1.0]
+      }, {
+        end: [1.0, 0.0]
+      }
+    ],
+    "B": [
+      {
+        segments: [
+          {
+            
+          }
+        ]
+      },
+      {
+
+      },
+      {
+
+      }
+    ]
   };
 
   var Letter = function(options) {
@@ -14,7 +40,7 @@
       this.calcHeight = options.calcHeight || function () { return 100; };
       this.calcX = options.calcX || function () { return 0; };
       this.calcY = options.calcY || function () { return 0; };
-      this.vertices = options.vertices || vertices;
+      this.paths = options.paths || paths;
       this.strokeColor = options.strokeColor || "#000000";
       this.calcLineWidth = options.calcLineWidth || function() { return 10; };
       this.drawingStyle = options.drawingStyle || "basic";

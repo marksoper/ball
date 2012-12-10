@@ -3,6 +3,22 @@
 
   var twicePI = Math.PI*2;
 
+  var getRandomBrushColor = function (targetColor) {
+    var random = {};
+    var strRandom = "#";
+    var seed = Math.random();
+    var target = {
+      r: parseInt(targetColor.substr(1,2), 16),
+      g: parseInt(targetColor.substr(3,2), 16),
+      b: parseInt(targetColor.substr(5,2), 16)
+    };
+    ["r","g","b"].forEach(function(c) {
+      random[c] = Math.floor(Math.min(0, Math.max(15, ((15 - target[c]) / 15) + 6*seed + target[c] - 3)));
+      strRandom = strRandom + random[c].toString(16);
+    });
+    return strRandom;
+  };
+
   var Ball = function(options) {
     if (this instanceof Ball) {
       this.canvas = options.canvas;
@@ -48,13 +64,28 @@
       var x, y, radius;
       for (var i=0; i<Math.floor(this.lineWidth); i++) {
         this.context.beginPath();
-        x = Math.floor(this.x + (50 + i/50) * Math.random());
-        y = Math.floor(this.y + (50+ i/50) * Math.random());
-        radius = Math.floor(this.radius +3 * Math.random());
+        x = Math.round(this.x + (35) * Math.random());
+        y = Math.round(this.y + (35) * Math.random());
+        radius = Math.round(this.radius +3 * Math.random());
+        this.context.arc(x, y, this.radius, 0, twicePI, true);
+        this.context.stroke();
+      }
+    },
+    paint: function() {
+      var targetColor = this.fillColor;
+      for (var i=0; i<Math.floor(this.lineWidth); i++) {
+        this.context.beginPath();
+        if (targetColor) {
+          this.context.fillStyle = getRandomBrushColor(targetColor);
+        }
+        x = Math.round(this.x + (35) * Math.random());
+        y = Math.round(this.y + (35) * Math.random());
+        radius = Math.round(this.radius +3 * Math.random());
         this.context.arc(x, y, this.radius, 0, twicePI, true);
         this.context.stroke();
       }
     }
+
   };
 
   window.Ball = Ball;

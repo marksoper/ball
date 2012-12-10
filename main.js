@@ -54,7 +54,7 @@
         },
         strokeColor: randomColor(),
         lineWidth: defaultLineWidth,
-        drawingStyle: "penSketch"
+        drawingStyle: "paint"
       });
       return ball;
     };
