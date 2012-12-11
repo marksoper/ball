@@ -13,7 +13,7 @@
       b: parseInt(targetColor.substr(5,2), 16)
     };
     ["r","g","b"].forEach(function(c) {
-      random[c] = Math.floor(Math.min(0, Math.max(15, ((15 - target[c]) / 15) + 6*seed + target[c] - 3)));
+      random[c] = Math.floor(Math.max(0, Math.min(255, ((255 - target[c]) / 255) + 100*seed + target[c] - 50)));
       strRandom = strRandom + random[c].toString(16);
     });
     return strRandom;
@@ -72,16 +72,16 @@
       }
     },
     paint: function() {
-      var targetColor = this.fillColor;
-      for (var i=0; i<Math.floor(this.lineWidth); i++) {
-        this.context.beginPath();
+      var targetColor = this.strokeColor;
+      for (var i=0; i<Math.floor(4*this.lineWidth); i++) {
         if (targetColor) {
-          this.context.fillStyle = getRandomBrushColor(targetColor);
+          this.context.strokeStyle = getRandomBrushColor(targetColor);
         }
-        x = Math.round(this.x + (35) * Math.random());
-        y = Math.round(this.y + (35) * Math.random());
-        radius = Math.round(this.radius +3 * Math.random());
-        this.context.arc(x, y, this.radius, 0, twicePI, true);
+        this.context.beginPath();
+        x = Math.round(this.x + (55) * Math.random());
+        y = Math.round(this.y + (55) * Math.random());
+        radius = Math.round(this.radius + 10 * Math.random());
+        this.context.arc(x, y, radius, 0, twicePI, true);
         this.context.stroke();
       }
     }

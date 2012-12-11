@@ -22,7 +22,7 @@
 
   var main = function() {
     var defaultRadius = 100;
-    var defaultLineWidth = 10;
+    var defaultLineWidth = 30;
     var canvas = document.getElementById('canvas');
     var context = canvas.getContext('2d');
     var canvasResizing;
@@ -79,7 +79,7 @@
         calcEndY: function() {
           return Math.floor( (initialEndY/initialCanvasHeight) * canvas.height );
         },
-        lineWidth: 10,
+        lineWidth: defaultLineWidth,
         drawingStyle: "penSketch"
       });
       return ground;
