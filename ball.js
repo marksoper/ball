@@ -73,7 +73,7 @@
     },
     paint: function() {
       var targetColor = this.strokeColor;
-      for (var i=0; i<Math.floor(4*this.lineWidth); i++) {
+      for (var i=0; i<Math.floor(1*this.lineWidth); i++) {
         if (targetColor) {
           this.context.strokeStyle = getRandomBrushColor(targetColor);
         }
@@ -81,7 +81,9 @@
         x = Math.round(this.x + (55) * Math.random());
         y = Math.round(this.y + (55) * Math.random());
         radius = Math.round(this.radius + 10 * Math.random());
-        this.context.arc(x, y, radius, 0, twicePI, true);
+        var startAngle = twicePI * Math.random();
+        var endAngle = startAngle + twicePI/4 * Math.random();
+        this.context.arc(x, y, radius, startAngle, endAngle, true);
         this.context.stroke();
       }
     }
