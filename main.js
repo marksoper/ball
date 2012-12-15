@@ -22,7 +22,7 @@
 
   var main = function() {
     var defaultRadius = 100;
-    var defaultLineWidth = 30;
+    var defaultLineWidth = 12;
     var canvas = document.getElementById('canvas');
     var context = canvas.getContext('2d');
     var canvasResizing;
@@ -50,7 +50,7 @@
           return Math.floor(canvas.width / 8);
         },
         calcLineWidth: function() {
-          return Math.floor(canvas.width / 80);
+          return Math.floor(canvas.width / 160);
         },
         strokeColor: randomColor(),
         lineWidth: defaultLineWidth,
@@ -61,9 +61,9 @@
     //
     var makeGround = function() {
       var initialBeginX = 0;
-      var initialBeginY = initialBallY + defaultRadius + defaultLineWidth * defaultLineWidth - 3*defaultLineWidth;
+      var initialBeginY = initialBallY + defaultRadius + defaultLineWidth * defaultLineWidth - 1*defaultLineWidth;
       var initialEndX = canvas.width;
-      var initialEndY = initialBallY + defaultRadius + defaultLineWidth * defaultLineWidth;
+      var initialEndY = initialBallY + defaultRadius + 1.12 * defaultLineWidth * defaultLineWidth;
       var ground = new Line({
         canvas: canvas,
         context: context,
@@ -85,8 +85,8 @@
       return ground;
     };
     //
-    //for (var i=0; i<1+Math.floor(Math.random()*3); i++) {
     for (var i=0; i<=0; i++) {
+    //for (var i=0; i<=0; i++) {
       balls.push(makeBall());
     }
     var ground = makeGround();

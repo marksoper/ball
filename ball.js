@@ -7,6 +7,9 @@
     var random = {};
     var strRandom = "#";
     var seed = Math.random();
+    if (0.62 < seed && seed < 0.65) {
+      return "#ffffff";
+    }
     var target = {
       r: parseInt(targetColor.substr(1,2), 16),
       g: parseInt(targetColor.substr(3,2), 16),
@@ -66,14 +69,14 @@
         this.context.beginPath();
         x = Math.round(this.x + (35) * Math.random());
         y = Math.round(this.y + (35) * Math.random());
-        radius = Math.round(this.radius +3 * Math.random());
+        radius = Math.round(this.radius + 3 * Math.random());
         this.context.arc(x, y, this.radius, 0, twicePI, true);
         this.context.stroke();
       }
     },
     paint: function() {
       var targetColor = this.strokeColor;
-      for (var i=0; i<Math.floor(1*this.lineWidth); i++) {
+      for (var i=0; i<Math.floor(140*this.lineWidth); i++) {
         if (targetColor) {
           this.context.strokeStyle = getRandomBrushColor(targetColor);
         }

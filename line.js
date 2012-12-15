@@ -56,6 +56,9 @@
         this.context.lineTo(endX, endY);
         this.context.stroke();
       }
+    },
+    paint: function() {
+      
     }
   };
 
