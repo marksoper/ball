@@ -3,25 +3,6 @@
 
   var twicePI = Math.PI*2;
 
-  var getRandomBrushColor = function (targetColor) {
-    var random = {};
-    var strRandom = "#";
-    var seed = Math.random();
-    if (0.62 < seed && seed < 0.65) {
-      return "#ffffff";
-    }
-    var target = {
-      r: parseInt(targetColor.substr(1,2), 16),
-      g: parseInt(targetColor.substr(3,2), 16),
-      b: parseInt(targetColor.substr(5,2), 16)
-    };
-    ["r","g","b"].forEach(function(c) {
-      random[c] = Math.floor(Math.max(0, Math.min(255, ((255 - target[c]) / 255) + 100*seed + target[c] - 50)));
-      strRandom = strRandom + random[c].toString(16);
-    });
-    return strRandom;
-  };
-
   var Ball = function(options) {
     if (this instanceof Ball) {
       this.canvas = options.canvas;
@@ -76,9 +57,9 @@
     },
     paint: function() {
       var targetColor = this.strokeColor;
-      for (var i=0; i<Math.floor(140*this.lineWidth); i++) {
+      for (var i=0; i<Math.floor(60*this.lineWidth); i++) {
         if (targetColor) {
-          this.context.strokeStyle = getRandomBrushColor(targetColor);
+          this.context.strokeStyle = Color.getRandomBrushColor(targetColor);
         }
         this.context.beginPath();
         x = Math.round(this.x + (55) * Math.random());
