@@ -58,7 +58,21 @@
       }
     },
     paint: function() {
-      
+      var beginX, beginY, endX, endY;
+      var targetColor = this.strokeColor;
+      for (var i=0; i<Math.floor(this.lineWidth); i++) {
+        if (targetColor) {
+          this.context.strokeStyle = Color.getRandomBrushColor(targetColor);
+        }
+        this.context.beginPath();
+        beginX = this.beginX;
+        beginY = Math.floor(this.beginY + (50 + i/50) * Math.random());
+        endX = this.endX;
+        endY = Math.floor(this.endY + (50 + i/50) * Math.random());
+        this.context.moveTo(beginX, beginY);
+        this.context.lineTo(endX, endY);
+        this.context.stroke();
+      }
     }
   };
 
