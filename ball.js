@@ -57,7 +57,7 @@
     },
     paint: function() {
       var targetColor = this.strokeColor;
-      for (var i=0; i<Math.floor(20*this.lineWidth); i++) {
+      for (var i=0; i<Math.floor(4*this.lineWidth); i++) {
         if (targetColor) {
           this.context.strokeStyle = Color.getRandomBrushColor(targetColor);
         }
