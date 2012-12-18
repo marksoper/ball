@@ -1,7 +1,7 @@
 
 (function() {
 
-  var N = 5;
+  var N = 4;
   var R = 1000;
 
   var Brush = function(options) {
@@ -27,13 +27,13 @@
       return Math.floor(Math.max(y, Math.min(yMax, yCoord)));
     };
     for (i=0;i<n;i++) {
-      var startX = Math.floor(Math.max(x, x + (x + width) * (i/n)));
-      var startY = Math.floor(Math.max(y, y + (y + height) * (i/n)));
+      var startX = xTrim(Math.random()*width + x);
+      var startY = yTrim(Math.random()*height + y);
       var randomMidpointX = Math.floor(Math.random()*R);
       var randomMidpointY = Math.floor(Math.random()*R);
       var arcRad = Math.sqrt( (startX - randomMidpointX) * (startX - randomMidpointX) + (startY - randomMidpointY) * (startY - randomMidpointY) );
       var startAngle = Math.acos( (startX - randomMidpointX) / arcRad );
-      var endAngle = startAngle + 0.26;
+      var endAngle = startAngle + 3.56;
       this.context.strokeStyle = Color.getRandomBrushColor(color);
       this.context.lineWidth = 10 * Math.random();
       this.context.beginPath();
@@ -53,7 +53,7 @@
       context: context
     });
 
-    brush.rect(0,0,400,200,context,"#990000");
+    brush.rect(300,300,300,300,context,"#440000");
 
   };
 
