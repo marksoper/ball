@@ -31,34 +31,29 @@
   };
 
   Loop.prototype.start = function(interval) {
-    console.log("loop start");
     this.interval = interval || this.interval;
-    this.active = true;
-    this._run();
+    this.started = true;
+    this.next();
+    console.log("loop start");
   };
 
   Loop.prototype.stop = function() {
+    clearTimeout(this.timeout);
+    this.started = false;
     console.log("loop stop");
-    this.active = false;
   };
 
-  Loop.prototype._next = function() {
+  Loop.prototype.next = function() {
     var self = this;
-    setTimeout(function() {
-      self._run();
-    }, this.interval);
-  };
-
-  Loop.prototype._runRegistered = function() {
     for (var i in this.registered) {
       this.registered[i].fn();
     }
-  };
-
-  Loop.prototype._run = function() {
-    if (this.active) {
-      this._runRegistered();
-      this._next();
+    if (this.started) {
+      this.timeout = setTimeout(function() {
+        self.next();
+      }, this.interval);
+    } else {
+      console.log("loop next called while loop stopped");
     }
   };
 

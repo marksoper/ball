@@ -5,6 +5,4 @@ canvas#canvas {
   overflow:hidden;
   max-width: 100%;
   height: auto;
-  background-color:#cccccc;
-  border:2px solid #000000;
 }
