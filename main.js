@@ -80,7 +80,7 @@
           return Math.floor( (initialEndY/initialCanvasHeight) * canvas.height );
         },
         lineWidth: defaultLineWidth,
-        drawingStyle: "penSketch"
+        drawingStyle: "paint"
       });
       return ground;
     };
@@ -129,7 +129,7 @@
       );
     });
     //
-    loop.next();
+    loop.start();
     //
     window.b = {
       loop: loop,
