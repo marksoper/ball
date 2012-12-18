@@ -31,7 +31,16 @@ module.exports = function(grunt) {
     }
   });
 
+  // Load local tasks.
+  grunt.loadTasks('tasks');
+
   // Default task.
-  grunt.registerTask('default', 'lint qunit');
+  grunt.registerTask('default', 'lint');
+
+  grunt.registerTask('wait', function(grunt) {
+    var done = this.async();
+  });
+
+  grunt.registerTask('srv', 'server wait');
 
 };
