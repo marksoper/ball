@@ -129,7 +129,7 @@
       );
     });
     //
-    loop.start();
+    loop.next();
     //
     window.b = {
       loop: loop,
