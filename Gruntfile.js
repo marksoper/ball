@@ -57,4 +57,6 @@ module.exports = function(grunt) {
 
   grunt.registerTask('srv', 'server wait');
 
+  grunt.registerTask('build', ['clean:build', 'copy:build']);
+
 };
