@@ -31,11 +31,19 @@ module.exports = function(grunt) {
     },
     clean: {
       build: ['dist/debug']
+    },
+    copy: {
+      build: {
+        files: {
+          "dist/debug/": ["index.html", "index.css", "CNAME", "lib/**"]
+        }
+      }
     }
   });
 
   // Load npm tasks.
   grunt.loadNpmTasks('grunt-contrib-clean');
+  grunt.loadNpmTasks('grunt-contrib-copy');
 
   // Load local tasks.
   grunt.loadTasks('tasks');
