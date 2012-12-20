@@ -1,0 +1,9 @@
+
+{
+	"name": "ball",
+	"version": "0.1.0",
+	"devDependencies": {
+		"grunt": "0.4.x",
+    "grunt-contrib-clean": "0.4.x"
+	}
+}

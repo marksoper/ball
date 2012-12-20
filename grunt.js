@@ -28,8 +28,14 @@ module.exports = function(grunt) {
         browser: true
       },
       globals: {}
+    },
+    clean: {
+      build: ['dist/debug']
     }
   });
+
+  // Load npm tasks.
+  grunt.loadNpmTasks('grunt-contrib-clean');
 
   // Load local tasks.
   grunt.loadTasks('tasks');
