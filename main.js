@@ -129,7 +129,11 @@
       );
     });
     //
-    loop.start();
+    loop.next();
+    window.addEventListener("keypress", function() {
+      loop.next.call(loop);
+      console.log("onkeypress event");
+    });
     //
     window.b = {
       loop: loop,
